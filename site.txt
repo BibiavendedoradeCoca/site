@@ -1,0 +1,75 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Livro {
+    String titulo;
+    boolean emprestado;
+
+
+    Livro(String titulo) {
+        this.titulo = titulo;
+        this.emprestado = false;
+    }
+}
+
+class Biblioteca {
+    ArrayList<Livro> livros = new ArrayList<>();
+
+    void adicionarLivro(String titulo) {
+        livros.add(new Livro(titulo));
+    }
+
+    void emprestarLivro(String titulo) {
+        for (Livro livro : livros) {
+            if (livro.titulo.equals(titulo) && !livro.emprestado) {
+                livro.emprestado = true;
+                System.out.println("Livro emprestado: " + titulo);
+                return;
+            }
+        }
+        System.out.println("Livro não disponível.");
+    }
+
+    void devolverLivro(String titulo) {
+        for (Livro livro : livros) {
+            if (livro.titulo.equals(titulo) && livro.emprestado) {
+                livro.emprestado = false;
+                System.out.println("Livro devolvido: " + titulo);
+                return;
+            }
+        }
+        System.out.println("Livro não encontrado.");
+    }
+}
+
+public class SistemaBiblioteca {
+    public static void main(String[] args) {
+        Biblioteca biblioteca = new Biblioteca();
+        Scanner scanner = new Scanner(System.in);
+        
+        biblioteca.adicionarLivro("O Senhor dos Anéis");
+        biblioteca.adicionarLivro("1984");
+
+        while (true) {
+            System.out.println("Escolha uma opção: 1. Emprestar 2. Devolver 3. Sair");
+            int escolha = scanner.nextInt();
+            scanner.nextLine(); // Limpar o buffer
+
+            if (escolha == 1) {
+                System.out.print("Digite o título do livro: ");
+                String titulo = scanner.nextLine();
+                biblioteca.emprestarLivro(titulo);
+            } else if (escolha == 2) {
+                System.out.print("Digite o título do livro: ");
+                String titulo = scanner.nextLine();
+                biblioteca.devolverLivro(titulo);
+            } else if (escolha == 3) {
+                break;
+            } else {
+                System.out.println("Opção inválida.");
+            }
+        }
+        
+        scanner.close();
+    }
+}
